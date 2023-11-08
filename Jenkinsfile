@@ -24,10 +24,11 @@ pipeline {
 
         stage('Push Image to Registry') {
             steps {
-      	      withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-        	      sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                sh 'docker push henribufii/testing:latest'
-              }
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                    sh 'docker push henribufii/testing:latest'
+                }
+            }
         }
 
         stage('Deploy to Kubernetes') {
@@ -36,5 +37,4 @@ pipeline {
             }
         }
     }
-  }
 }
