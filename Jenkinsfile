@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        COMMIT_HASH = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+    }
+
     stages {
         stage('Clone Repository') {
             steps {
@@ -12,7 +16,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t henribufii/testing:latest .'
+                sh "docker build -t henribufii/testing:$COMMIT_HASH ."
             }
         }
 
@@ -26,7 +30,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                    sh 'docker push henribufii/testing:latest'
+                    sh "docker push henribufii/testing:$COMMIT_HASH"
                 }
             }
         }
