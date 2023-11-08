@@ -16,11 +16,11 @@ pipeline {
             }
         }
 
-        // stage('Test Image') {
-        //     steps {
-        //         sh 'docker run myapp:latest /app/test.sh'
-        //     }
-        // }
+        stage('Test Image') {
+            steps {
+                sh 'mvn test'
+            }
+        }
 
         stage('Push Image to Registry') {
             steps {
