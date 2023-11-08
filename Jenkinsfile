@@ -24,9 +24,10 @@ pipeline {
 
         stage('Push Image to Registry') {
             steps {
-                sh "docker login -u henribfuii -p henri23H"
+      	      withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+        	      sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
                 sh 'docker push henribufii/testing:latest'
-            }
+              }
         }
 
         // stage('Deploy to Kubernetes') {
@@ -35,4 +36,5 @@ pipeline {
         //     }
         // }
     }
+  }
 }
