@@ -1,14 +1,25 @@
 package com.example.dockerize.springbootapp;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SpringBootAppApplicationTests {
 
+    @LocalServerPort
+    private int port;
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+
     @Test
-    public void testGetGreeting() {
-        SpringBootAppApplication app = new SpringBootAppApplication();
-        String greeting = app.getGreeting();
-        assertEquals("Hello spring boot application", greeting);
+    public void greetingShouldReturnMessage() throws Exception {
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/", String.class))
+            .contains("Hello spring boot application");
     }
 }
