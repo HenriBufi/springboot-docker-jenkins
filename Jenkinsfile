@@ -30,11 +30,11 @@ pipeline {
               }
         }
 
-        // stage('Deploy to Kubernetes') {
-        //     steps {
-        //         sh 'kubectl apply -f k8s-deployment.yaml'
-        //     }
-        // }
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f springboot-deployment.yaml'
+            }
+        }
     }
   }
 }
