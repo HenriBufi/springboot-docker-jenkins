@@ -1,4 +1,4 @@
-kpackage com.example.dockerize.springbootapp;
+package com.example.dockerize.springbootapp;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
