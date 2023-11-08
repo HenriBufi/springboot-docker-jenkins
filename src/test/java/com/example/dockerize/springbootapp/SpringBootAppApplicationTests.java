@@ -1,16 +1,14 @@
-package com.in28minutes.springboot.jdbc.h2.example;
+package com.example.dockerize.springbootapp;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
-@ExtendWith(SpringExtension.class)
-public class SpringBoot2JdbcWithH2ApplicationTests {
+public class SpringBootAppApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
-
+    @Test
+    public void testGetGreeting() {
+        SpringBootAppApplication app = new SpringBootAppApplication();
+        String greeting = app.getGreeting();
+        assertEquals("Hello spring boot application", greeting);
+    }
 }
