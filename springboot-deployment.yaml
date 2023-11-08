@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: springboot
-        image: henribufii/testing:$COMMIT_HASH
+        image: henribufii/testing
         ports:
         - containerPort: 8080
 ---
