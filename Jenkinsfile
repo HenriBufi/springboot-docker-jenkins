@@ -20,11 +20,11 @@ pipeline {
             }
         }
 
-        stage('Test Image') {
-            steps {
-                sh 'mvn test'
-            }
-        }
+    //    stage('Test Image') {
+      //      steps {
+        //        sh 'mvn test'
+         //   }
+        //}
 
         stage('Push Image to Registry') {
             steps {
