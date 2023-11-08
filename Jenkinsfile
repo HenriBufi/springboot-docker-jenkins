@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t henribufii/testing:$COMMIT_HASH ."
+                sh "docker build -t henribufii/testing:latest ."
             }
         }
 
