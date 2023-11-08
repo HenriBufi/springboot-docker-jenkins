@@ -1,13 +1,15 @@
 package com.example.dockerize.springbootapp;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
-class SpringBootAppApplicationTests {
+public class SpringBootAppApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    public void testAddMethod() {
+        SpringBootAppApplication app = new SpringBootAppApplication();
+        int result = app.add(2, 3);
+        assertEquals(5, result);
+    }
 
 }
