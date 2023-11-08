@@ -29,7 +29,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the JAR file from the previous stage
-COPY --from=build /app/target/spring-boot-docker.jar ./app.jar
+COPY --from=build /app/target/spring-boot-2-jdbc-with-h2-0.0.1-SNAPSHOT.jar ./app.jar
 
 # Create a non-root user
 RUN groupadd -r myuser && \
