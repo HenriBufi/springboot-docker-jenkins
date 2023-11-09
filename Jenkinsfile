@@ -40,24 +40,17 @@ pipeline {
         stage('Deployment Verification') {
             steps {
                 script {
-                    def maxRetries = 3
-                    def retryInterval = 10
+                    def timeoutDuration = 1 
 
-                    for (int i = 1; i <= maxRetries; i++) {
-                        echo "Checking deployment status (Attempt $i/$maxRetries)..."
-                        def deployStatus = sh(script: 'kubectl rollout status deployment/springboot-app', returnStatus: true)
+                    timeout(time: timeoutDuration, unit: 'MINUTES') {
+                        sh 'kubectl rollout status deployment/springboot-app'
+                    }
 
-                        if (deployStatus == 0) {
-                            echo "Deployment succeeded."
-                            break
-                        } else if (i == maxRetries) {
-                            echo "Max retries reached. Deployment failed. Rolling back..."
-                            sh 'kubectl rollout undo deployment/springboot-app'
-                            error "Rollback completed due to deployment failure."
-                        }
-
-                        echo "Sleeping for $retryInterval seconds before next attempt..."
-                        sleep retryInterval
+                    def deployStatus = sh(script: 'kubectl rollout status deployment/springboot-app', returnStatus: true)
+                    if (deployStatus != 0) {
+                        echo "Deployment failed. Rolling back..."
+                        sh 'kubectl rollout undo deployment/springboot-app'
+                        error "Rollback completed due to deployment failure."
                     }
                 }
             }
