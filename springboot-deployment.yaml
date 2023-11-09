@@ -35,3 +35,6 @@ spec:
     port: 8080
     targetPort: 8080
   type: ClusterIP
+
+
+### per pjesen e secret esht perdorur komanda kubectl create secret docker-registry <name> --docker-server=<server name>   --docker-username=<username>   --docker-password=<password>   --docker-email=<email>
