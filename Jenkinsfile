@@ -37,12 +37,15 @@ pipeline {
             }
         }
 
-
         stage('Deployment Verification') {
             steps {
                 script {
+                    def timeoutDuration = 1 
+
                     try {
-                        sh 'kubectl rollout status deployment/springboot-app'
+                        timeout(time: timeoutDuration, unit: 'MINUTES') {
+                            sh 'kubectl rollout status deployment/springboot-app'
+                        }
                     } catch (Exception e) {
                         echo "Deployment verification failed or exceeded timeout. Rolling back..."
                         sh 'kubectl rollout undo deployment/springboot-app'
@@ -53,4 +56,3 @@ pipeline {
         }
     }
 }
-
