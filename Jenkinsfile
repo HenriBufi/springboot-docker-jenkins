@@ -16,10 +16,10 @@ pipeline {
             }
         }
 
-       stage('Test Image') {
-           steps {
-               sh 'mvn test'
-           }
+        stage('Test Image') {
+            steps {
+                sh 'mvn test'
+            }
         }
 
         stage('Push Image to Registry') {
@@ -31,6 +31,13 @@ pipeline {
             }
         }
 
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f springboot-deployment.yaml'
+            }
+        }
+
+
         // stage('Deploy to Kubernetes') {
         //     steps {
         //         sh 'kubectl apply -f springboot-deployment.yaml'
@@ -38,23 +45,17 @@ pipeline {
         //     }
         // }
 
-        stage('Deploy to Kubernetes') {
+
+        stage('Deployment Verification') {
             steps {
                 script {
-                    try {
-                        sh 'kubectl apply -f springboot-deployment.yaml'
-                    } catch (Exception e) {
-                        echo "Deployment failed. Rolling back..."
+                    def deployStatus = sh(script: 'kubectl rollout status deployment/springboot-app', returnStatus: true)
+                    if (deployStatus != 0) {
+                        echo "Deployment verification failed. Rolling back..."
                         sh 'kubectl rollout undo deployment/springboot-app'
                         error "Rollback completed due to deployment failure."
                     }
                 }
-            }
-        }
-
-        stage('Deployment Verification') {
-            steps {
-                sh 'kubectl rollout status deployment/springboot-app'
             }
         }
     }
