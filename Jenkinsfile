@@ -41,5 +41,11 @@ pipeline {
                 sh 'kubectl apply -f ingress.yaml'
             }
         }
+
+        stage('Deployment Verification') {
+            steps {
+                sh 'kubectl rollout status deployment/springboot-app'
+            }
+        }
     }
 }
