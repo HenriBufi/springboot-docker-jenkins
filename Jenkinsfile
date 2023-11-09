@@ -1,9 +1,5 @@
-pipeline {
+kpipeline {
     agent any
-
-    environment {
-        COMMIT_HASH = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-    }
 
     stages {
         stage('Clone Repository') {
@@ -35,10 +31,24 @@ pipeline {
             }
         }
 
+        // stage('Deploy to Kubernetes') {
+        //     steps {
+        //         sh 'kubectl apply -f springboot-deployment.yaml'
+        //         sh 'kubectl apply -f ingress.yaml'
+        //     }
+        // }
+
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f springboot-deployment.yaml'
-                sh 'kubectl apply -f ingress.yaml'
+                script {
+                    try {
+                        sh 'kubectl apply -f springboot-deployment.yaml'
+                    } catch (Exception e) {
+                        echo "Deployment failed. Rolling back..."
+                        sh 'kubectl rollout undo deployment/springboot-app'
+                        error "Rollback completed due to deployment failure."
+                    }
+                }
             }
         }
 
