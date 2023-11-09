@@ -16,3 +16,4 @@ spec:
                 name: springboot-service
                 port:
                   number: 8080
+#### Ketu kam krijuar nje A record qe ben point te ip e service loadbalancerit te nginx ingress controller. website hapet dhe mund ta shohesh aplikacioin running
