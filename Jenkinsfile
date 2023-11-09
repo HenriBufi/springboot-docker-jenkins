@@ -40,10 +40,7 @@ pipeline {
         stage('Deployment Verification') {
             steps {
                 script {
-                    def timeoutDuration = 1  
-
                     try {
-                        timeout(time: timeoutDuration, unit: 'MINUTES') {
                             sh 'kubectl rollout status deployment/springboot-app'
                         }
                     } catch (Exception e) {
@@ -53,6 +50,6 @@ pipeline {
                     }
                 }
             }
-        }
     }
 }
+
