@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t henribufii/testing:latest ."
+                sh "docker build -t henribufii/jenkins:latest ."
             }
         }
 
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                    sh "docker push henribufii/testing:latest"
+                    sh "docker push henribufii/jenkins:latest"
                 }
             }
         }

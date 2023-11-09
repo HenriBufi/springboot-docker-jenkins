@@ -16,9 +16,11 @@ spec:
     spec:
       containers:
       - name: springboot
-        image: henribufii/testing
+        image: henribufii/jenkins
         ports:
         - containerPort: 8080
+      imagePullSecrets:
+      - name: regcred
 
 ---
 apiVersion: v1
